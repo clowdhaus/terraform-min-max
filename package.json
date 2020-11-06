@@ -89,7 +89,7 @@
   },
   "release": {
     "branches": [
-      "master"
+      "main"
     ],
     "ci": false,
     "plugins": [
