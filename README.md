@@ -13,7 +13,7 @@
 </p>
 <p align="center">
   <a href="https://github.com/clowdhaus/terraform-min-max/actions?query=workflow%3Atest">
-    <img src="https://github.com/clowdhaus/terraform-min-max/workflows/test/badge.svg?branch=master" alt="test">
+    <img src="https://github.com/clowdhaus/terraform-min-max/workflows/test/badge.svg?branch=main" alt="test">
   </a>
 </p>
 
@@ -28,7 +28,7 @@ steps:
 
   - name: Extract Terraform min/max versions
     id: minMax
-    uses: clowdhaus/terraform-min-max@master
+    uses: clowdhaus/terraform-min-max@main
     with:
       # The project root directory (.) is used as the default
       directory: .
@@ -53,7 +53,7 @@ jobs:
 
       - name: Extract Terraform min/max versions
         id: minMax
-        uses: clowdhaus/terraform-min-max@master
+        uses: clowdhaus/terraform-min-max@main
         with:
           directory: tests/0.13
     outputs:
