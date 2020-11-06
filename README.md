@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/terraform.png" alt="terraform" height="242px">
+  <img src=".github/terraform.png" alt="terraform" height="364px">
 </p>
 <h1 style="font-size: 56px; margin: 0; padding: 0;" align="center">
   terraform-min-max
