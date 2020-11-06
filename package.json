@@ -70,7 +70,9 @@
   },
   "husky": {
     "hooks": {
-
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged",
+      "pre-rebase": "HUSKY_SKIP_HOOKS=1"
     }
   },
   "lint-staged": {
