@@ -1,45 +1,117 @@
 {
-  "name": "typescript-action",
+  "name": "terraform-min-max",
   "version": "0.0.0",
-  "private": true,
-  "description": "TypeScript template action",
-  "main": "lib/main.js",
-  "scripts": {
-    "build": "tsc",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
-    "lint": "eslint src/**/*.ts",
-    "package": "ncc build --source-map --license licenses.txt",
-    "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
-  },
+  "description": "GitHub action used to evaluate the Terraform minimum and maximum versions permitted",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/clowdhaus/terraform-min-max.git"
   },
   "keywords": [
+    "github",
     "actions",
-    "node",
-    "setup"
+    "terraform"
   ],
-  "author": "",
-  "license": "MIT",
+  "author": "Clowd Haus, LLC",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/clowdhaus/terraform-min-max/issues"
+  },
+  "homepage": "https://github.com/clowdhaus/terraform-min-max#readme",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "all": "yarn format && yarn lint && yarn compile",
+    "build": "tsc --diagnostics",
+    "compile": "ncc build -m",
+    "format": "prettier --write **/*ts",
+    "lint": "eslint '**/*.ts' --quiet --fix",
+    "release": "semantic-release",
+    "test": "npx ts-node src/search.ts"
+  },
   "dependencies": {
-    "@actions/core": "^1.2.6"
+    "@actions/core": "^1.2.6",
+    "@actions/io": "^1.0.2",
+    "find-in-files": "^0.5.0",
+    "node-fetch": "^2.6.1",
+    "semver": "^7.3.2"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.10",
-    "@types/node": "^14.10.0",
-    "@typescript-eslint/parser": "^3.10.1",
-    "@vercel/ncc": "^0.23.0",
-    "eslint": "^7.8.1",
-    "eslint-plugin-github": "^4.1.1",
-    "eslint-plugin-jest": "^23.20.0",
-    "jest": "^24.9.0",
-    "jest-circus": "^26.4.2",
-    "js-yaml": "^3.14.0",
-    "prettier": "2.1.1",
-    "ts-jest": "^24.3.0",
-    "typescript": "^4.0.2"
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@types/find-in-files": "^0.5.0",
+    "@types/node": "^14.14.6",
+    "@types/node-fetch": "^2.5.7",
+    "@types/semver": "^7.3.4",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "@vercel/ncc": "^0.25.0",
+    "commitizen": "^4.2.2",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
+    "prettier": "^2.1.2",
+    "prettier-plugin-package": "^1.2.0",
+    "semantic-release": "^17.2.2",
+    "typescript": "^4.0.5"
+  },
+  "resolutions": {
+    "mem": "^4.0.0",
+    "yargs-parser": "^18.1.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged",
+      "pre-rebase": "HUSKY_SKIP_HOOKS=1"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.md": [
+      "prettier --single-quote --write"
+    ],
+    "*package.json": [
+      "prettier --write --plugin=prettier-plugin-package"
+    ]
+  },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "ci": false,
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
   }
 }
