@@ -9,7 +9,6 @@ jobs:
   versionExtract:
     name: Extract Min/Max Versions
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -32,7 +31,6 @@ jobs:
         version:
           - ${{ needs.versionExtract.outputs.minVersion }}
           - ${{ needs.versionExtract.outputs.maxVersion }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
