@@ -1,55 +1,30 @@
 {
   "name": "terraform-min-max",
   "version": "0.0.0",
+  "private": true,
   "description": "GitHub action used to evaluate the Terraform minimum and maximum versions permitted",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/clowdhaus/terraform-min-max.git"
-  },
   "keywords": [
     "github",
     "actions",
     "terraform"
   ],
-  "author": "Clowd Haus, LLC",
-  "license": "Apache-2.0",
+  "homepage": "https://github.com/clowdhaus/terraform-min-max#readme",
   "bugs": {
     "url": "https://github.com/clowdhaus/terraform-min-max/issues"
   },
-  "homepage": "https://github.com/clowdhaus/terraform-min-max#readme",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clowdhaus/terraform-min-max.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Clowd Haus, LLC",
   "main": "src/index.ts",
   "scripts": {
     "all": "yarn format && yarn lint && yarn compile",
-    "build": "tsc --diagnostics",
     "compile": "ncc build -m",
-    "format": "prettier --write **/*ts",
+    "format": "prettier --write src/*ts .eslintrc.js",
     "lint": "eslint '**/*.ts' --quiet --fix",
-    "release": "semantic-release",
-    "test": "npx ts-node src/search.ts"
-  },
-  "dependencies": {
-    "@actions/core": "^1.2.7",
-    "@actions/io": "^1.1.0",
-    "find-in-files": "^0.5.0",
-    "node-fetch": "^2.6.1",
-    "semver": "^7.3.5"
-  },
-  "devDependencies": {
-    "@types/find-in-files": "^0.5.0",
-    "@types/node": "^15.0.0",
-    "@types/node-fetch": "^2.5.10",
-    "@types/semver": "^7.3.5",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "@vercel/ncc": "^0.28.3",
-    "eslint": "^7.25.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "lint-staged": "^10.5.4",
-    "prettier": "^2.2.1",
-    "prettier-plugin-package": "^1.3.0",
-    "typescript": "^4.2.4"
+    "release": "semantic-release"
   },
   "lint-staged": {
     "*.ts": [
@@ -61,6 +36,65 @@
     ],
     "*package.json": [
       "prettier --write --plugin=prettier-plugin-package"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/io": "^1.1.1",
+    "find-in-files": "^0.5.0",
+    "node-fetch": "^3.0.0",
+    "semver": "^7.3.5"
+  },
+  "devDependencies": {
+    "@types/find-in-files": "^0.5.1",
+    "@types/node": "^16.11.0",
+    "@types/node-fetch": "^3.0.3",
+    "@types/semver": "^7.3.8",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "@vercel/ncc": "^0.31.1",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "lint-staged": "^11.2.3",
+    "prettier": "^2.4.1",
+    "prettier-plugin-package": "^1.3.0",
+    "semantic-release": "^18.0.0",
+    "typescript": "^4.4.4"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "ci": false,
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json"
+          ],
+          "message": "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
     ]
   }
 }

@@ -1,6 +1,7 @@
+import {versionConstraintSearch} from './search';
+import {getMinMaxVersions} from './versions';
+
 import * as core from '@actions/core';
-import { getMinMaxVersions } from './versions';
-import { versionConstraintSearch } from './search';
 
 async function run(): Promise<void> {
   const directory = core.getInput('directory');
@@ -20,6 +21,6 @@ async function run(): Promise<void> {
   }
 }
 
-run().catch((error) => {
+run().catch(error => {
   core.setFailed(error);
 });

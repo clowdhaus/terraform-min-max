@@ -46,13 +46,9 @@ export interface Options {
 export type MinMaxVersions = [string, string?];
 
 export async function getMetadata(): Promise<Metadata> {
-  const result = fetch('https://releases.hashicorp.com/terraform/index.json')
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error(`Failed to fetch version metadata. ${err}`);
-    });
-
-  return result;
+  const result = await fetch('https://releases.hashicorp.com/terraform/index.json');
+  const jsonObj = result.json() as unknown;
+  return <Metadata>jsonObj;
 }
 
 export async function getMinMaxVersions(versionConstraint: string, options: Options = {}): Promise<MinMaxVersions> {
