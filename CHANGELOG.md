@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.3...v1.0.4) (2021-11-03)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies to latest and re-compile action artifact ([86511f9](https://github.com/clowdhaus/terraform-min-max/commit/86511f9f178cc636ac2eb00ffdfe73f77090fa52))
+
 ## [1.0.3](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.2...v1.0.3) (2021-10-15)
 
 
