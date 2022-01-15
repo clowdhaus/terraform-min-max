@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    "target": "es2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
     "removeComments": true,
@@ -12,7 +14,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true
   },
   "include": ["src/*.ts"],
   "exclude": ["node_modules", "tests"]

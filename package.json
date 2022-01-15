@@ -43,6 +43,33 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "ci": false,
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json"
+          ],
+          "message": "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  },
   "resolutions": {
     "ansi-regex": "^5.0.1",
     "json-schema": ">=0.4.0",
@@ -76,32 +103,5 @@
     "prettier-plugin-package": "^1.3.0",
     "semantic-release": "^18.0.1",
     "typescript": "^4.5.4"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ],
-    "ci": false,
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/github",
-      [
-        "@semantic-release/changelog",
-        {
-          "changelogFile": "CHANGELOG.md"
-        }
-      ],
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "CHANGELOG.md",
-            "package.json"
-          ],
-          "message": "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-        }
-      ]
-    ]
   }
 }
