@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.5...v1.0.6) (2022-01-15)
+
+
+### Bug Fixes
+
+* correct dist output by downgrading `node-fetch` ([#3](https://github.com/clowdhaus/terraform-min-max/issues/3)) ([14dd414](https://github.com/clowdhaus/terraform-min-max/commit/14dd41404de18a3cb8b898eb87ea56809fd7ce02))
+
 ## [1.0.5](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.4...v1.0.5) (2022-01-15)
 
 
