@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.6...v1.0.7) (2022-03-28)
+
+
+### Bug Fixes
+
+* Update dependencies to latest to patch reported vulnerabilities ([#6](https://github.com/clowdhaus/terraform-min-max/issues/6)) ([df03691](https://github.com/clowdhaus/terraform-min-max/commit/df036915208a27a559dc769f7c6a1413c55c58dd))
+
 ## [1.0.6](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.5...v1.0.6) (2022-01-15)
 
 
