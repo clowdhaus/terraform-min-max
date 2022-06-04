@@ -1,3 +1,11 @@
+## [1.0.8](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.7...v1.0.8) (2022-06-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependencies to latest to patch reported vulnerabilities ([989b832](https://github.com/clowdhaus/terraform-min-max/commit/989b8328febeb0f4eaa214fd190e6d786628cde7))
+* Revert patch of `semver-regex` causing issues with `import` vs `require` ([06d675b](https://github.com/clowdhaus/terraform-min-max/commit/06d675b45b1a0f5bf5d8c8a9720593bf7e1b5604))
+
 ## [1.0.7](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.6...v1.0.7) (2022-03-28)
 
 
