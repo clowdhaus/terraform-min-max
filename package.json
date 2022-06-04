@@ -72,8 +72,7 @@
   },
   "resolutions": {
     "minimist": ">=1.2.6",
-    "npm": ">=8.11.0",
-    "semver-regex": ">=3.1.4"
+    "npm": ">=8.11.0"
   },
   "dependencies": {
     "@actions/core": "^1.8.2",
