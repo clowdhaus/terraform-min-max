@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/clowdhaus/terraform-min-max/compare/v1.1.0...v1.1.1) (2022-08-01)
+
+
+### Bug Fixes
+
+* package.json & yarn.lock to reduce vulnerabilities ([#10](https://github.com/clowdhaus/terraform-min-max/issues/10)) ([4e1252e](https://github.com/clowdhaus/terraform-min-max/commit/4e1252eba3723803affb633ccd5df84170e4fa87))
+
 # [1.1.0](https://github.com/clowdhaus/terraform-min-max/compare/v1.0.8...v1.1.0) (2022-07-28)
 
 
