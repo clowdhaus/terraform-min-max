@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/clowdhaus/terraform-min-max/compare/v1.1.1...v1.2.0) (2022-10-27)
+
+
+### Features
+
+* Update depdencies to latest to remove warning on `setOutput` ([e1efe31](https://github.com/clowdhaus/terraform-min-max/commit/e1efe311319da6635d8a8095b8ce936e6d335581))
+
 ## [1.1.1](https://github.com/clowdhaus/terraform-min-max/compare/v1.1.0...v1.1.1) (2022-08-01)
 
 
