@@ -42,14 +42,26 @@ jobs:
         with:
           directory: ${{ matrix.directory }}
 
-      - name: Pre-commit Terraform ${{ steps.minMax.outputs.minVersion }}
-        uses: clowdhaus/terraform-composite-actions/pre-commit@v1.3.0
-        with:
-          terraform-version: ${{ steps.minMax.outputs.minVersion }}
-          terraform-docs-version: ${{ env.TERRAFORM_DOCS_VERSION }}
+      # Min version
+      - name: Remove default Terraform
+        run: rm -rf $(which terraform)
 
-      - name: Pre-commit Terraform ${{ steps.minMax.outputs.maxVersion }}
-        uses: clowdhaus/terraform-composite-actions/pre-commit@v1.3.0
+      - name: Install Terraform ${{ steps.minMax.outputs.minVersion }}
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform-version: ${{ steps.minMax.outputs.maxVersion }}
-          terraform-docs-version: ${{ env.TERRAFORM_DOCS_VERSION }}
+          terraform_version: ${{ steps.minMax.outputs.minVersion }}
+
+      - name: Terraform validate ${{ steps.minMax.outputs.minVersion }}
+        run: terraform init && terraform validate
+
+      # Max version
+      - name: Remove min Terraform
+        run: rm -rf $(which terraform)
+
+      - name: Install Terraform ${{ steps.minMax.outputs.maxVersion }}
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ steps.minMax.outputs.maxVersion }}
+
+      - name: Terraform validate ${{ steps.minMax.outputs.maxVersion }}
+        run: terraform init && terraform validate
