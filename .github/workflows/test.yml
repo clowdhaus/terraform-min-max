@@ -8,9 +8,6 @@ on:
     branches:
       - main
 
-env:
-  TERRAFORM_DOCS_VERSION: v0.16.0
-
 jobs:
   collectInputs:
     name: Collect workflow inputs
@@ -19,7 +16,7 @@ jobs:
       directories: ${{ steps.dirs.outputs.directories }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get root directories
         id: dirs
@@ -34,7 +31,7 @@ jobs:
         directory: ${{ fromJson(needs.collectInputs.outputs.directories) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Terraform min/max versions
         id: minMax
