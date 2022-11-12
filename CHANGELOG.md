@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/clowdhaus/terraform-min-max/compare/v1.2.0...v1.2.1) (2022-11-12)
+
+
+### Bug Fixes
+
+* Add sort ascending by string length in versions.tf files keys array ([#15](https://github.com/clowdhaus/terraform-min-max/issues/15)) ([8250970](https://github.com/clowdhaus/terraform-min-max/commit/8250970624bba09f5d3e3b396c9cd0f521b8220b))
+
 # [1.2.0](https://github.com/clowdhaus/terraform-min-max/compare/v1.1.1...v1.2.0) (2022-10-27)
 
 
