@@ -20,7 +20,7 @@ jobs:
 
       - name: Get root directories
         id: dirs
-        uses: clowdhaus/terraform-composite-actions/directories@v1.3.0
+        uses: clowdhaus/terraform-composite-actions/directories@v1.8.1
 
   preCommit:
     name: Pre-commit
@@ -50,7 +50,9 @@ jobs:
 
       - name: Terraform validate ${{ steps.minMax.outputs.minVersion }}
         working-directory: ${{ matrix.directory }}
-        run: terraform init && terraform validate
+        run: |
+          terraform init
+          terraform validate
 
       # Max version
       - name: Remove min Terraform
@@ -63,4 +65,6 @@ jobs:
 
       - name: Terraform validate ${{ steps.minMax.outputs.maxVersion }}
         working-directory: ${{ matrix.directory }}
-        run: terraform init && terraform validate
+        run: |
+          terraform init
+          terraform validate
