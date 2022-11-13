@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/clowdhaus/terraform-min-max/compare/v1.2.3...v1.2.4) (2022-11-13)
+
+
+### Bug Fixes
+
+* Correct search logic to include `sort()` which will return the correct result ([#18](https://github.com/clowdhaus/terraform-min-max/issues/18)) ([c592570](https://github.com/clowdhaus/terraform-min-max/commit/c592570b641f1c4050371eb10a36c8b3084f05e6))
+
 ## [1.2.3](https://github.com/clowdhaus/terraform-min-max/compare/v1.2.2...v1.2.3) (2022-11-13)
 
 
