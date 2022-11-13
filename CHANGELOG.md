@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/clowdhaus/terraform-min-max/compare/v1.2.2...v1.2.3) (2022-11-13)
+
+
+### Bug Fixes
+
+* Filter out sub-directory paths ([#17](https://github.com/clowdhaus/terraform-min-max/issues/17)) ([4e17e62](https://github.com/clowdhaus/terraform-min-max/commit/4e17e62c0caec29df4a932ca9379306ae075de25))
+
 ## [1.2.2](https://github.com/clowdhaus/terraform-min-max/compare/v1.2.1...v1.2.2) (2022-11-13)
 
 
