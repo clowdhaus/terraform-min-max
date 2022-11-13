@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/clowdhaus/terraform-min-max/compare/v1.2.1...v1.2.2) (2022-11-13)
+
+
+### Bug Fixes
+
+* Switch to use a regex to filter out results instead of length ([#16](https://github.com/clowdhaus/terraform-min-max/issues/16)) ([6a81ce9](https://github.com/clowdhaus/terraform-min-max/commit/6a81ce9986c92312c78609995aa33c4c0e4ccd40))
+
 ## [1.2.1](https://github.com/clowdhaus/terraform-min-max/compare/v1.2.0...v1.2.1) (2022-11-12)
 
 
