@@ -49,6 +49,7 @@ jobs:
           terraform_version: ${{ steps.minMax.outputs.minVersion }}
 
       - name: Terraform validate ${{ steps.minMax.outputs.minVersion }}
+        working-directory: ${{ matrix.directory }}
         run: terraform init && terraform validate
 
       # Max version
@@ -61,4 +62,5 @@ jobs:
           terraform_version: ${{ steps.minMax.outputs.maxVersion }}
 
       - name: Terraform validate ${{ steps.minMax.outputs.maxVersion }}
+        working-directory: ${{ matrix.directory }}
         run: terraform init && terraform validate
