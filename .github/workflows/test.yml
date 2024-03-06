@@ -16,7 +16,7 @@ jobs:
       directories: ${{ steps.dirs.outputs.directories }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get root directories
         id: dirs
@@ -31,7 +31,7 @@ jobs:
         directory: ${{ fromJson(needs.collectInputs.outputs.directories) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Terraform min/max versions
         id: minMax
@@ -44,7 +44,7 @@ jobs:
         run: rm -rf $(which terraform)
 
       - name: Install Terraform ${{ steps.minMax.outputs.minVersion }}
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ steps.minMax.outputs.minVersion }}
 
@@ -59,7 +59,7 @@ jobs:
         run: rm -rf $(which terraform)
 
       - name: Install Terraform ${{ steps.minMax.outputs.maxVersion }}
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ steps.minMax.outputs.maxVersion }}
 
