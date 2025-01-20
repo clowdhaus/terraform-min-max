@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/clowdhaus/terraform-min-max/compare/v1.3.1...v1.3.2) (2025-01-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency semver to v7.6.3 ([#40](https://github.com/clowdhaus/terraform-min-max/issues/40)) ([dda00ad](https://github.com/clowdhaus/terraform-min-max/commit/dda00ad7bcf402332a5634da790931d30df698e1))
+
 ## [1.3.1](https://github.com/clowdhaus/terraform-min-max/compare/v1.3.0...v1.3.1) (2024-04-04)
 
 
