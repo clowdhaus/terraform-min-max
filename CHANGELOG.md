@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/clowdhaus/terraform-min-max/compare/v1.3.2...v1.4.0) (2025-07-01)
+
+
+### Features
+
+* Update dependencies to latest, fix CI checks ([0e8936f](https://github.com/clowdhaus/terraform-min-max/commit/0e8936f2b61066ac0aaa45230befe1395106e2c4))
+
 ## [1.3.2](https://github.com/clowdhaus/terraform-min-max/compare/v1.3.1...v1.3.2) (2025-01-20)
 
 
