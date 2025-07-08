@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/clowdhaus/terraform-min-max/compare/v1.4.0...v1.4.1) (2025-07-08)
+
+
+### Bug Fixes
+
+* Correct Terraform version for module test ([#78](https://github.com/clowdhaus/terraform-min-max/issues/78)) ([9925580](https://github.com/clowdhaus/terraform-min-max/commit/9925580e4719bf4d54f09eb3c60d4d772f48f15c))
+
 # [1.4.0](https://github.com/clowdhaus/terraform-min-max/compare/v1.3.2...v1.4.0) (2025-07-01)
 
 
