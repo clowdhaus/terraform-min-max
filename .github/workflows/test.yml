@@ -20,7 +20,7 @@ jobs:
 
       - name: Get root directories
         id: dirs
-        uses: clowdhaus/terraform-composite-actions/directories@v1.11.1
+        uses: clowdhaus/terraform-composite-actions/directories@v1.13.0
 
   preCommit:
     name: Pre-commit
