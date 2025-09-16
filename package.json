@@ -84,11 +84,11 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/find-in-files": "^0.5.3",
-    "@types/node": "^24.3.1",
+    "@types/node": "^24.5.0",
     "@types/node-fetch": "^3.0.2",
     "@types/semver": "^7.7.1",
-    "@typescript-eslint/eslint-plugin": "^8.43.0",
-    "@typescript-eslint/parser": "^8.43.0",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
     "@vercel/ncc": "^0.38.3",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
@@ -99,7 +99,7 @@
     "lint-staged": "^16.1.6",
     "prettier": "^3.5.3",
     "prettier-plugin-package": "^2.0.0",
-    "semantic-release": "^24.2.7",
+    "semantic-release": "^24.2.8",
     "typescript": "^5.9.2"
   }
 }
