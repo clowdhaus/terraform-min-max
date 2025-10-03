@@ -51,8 +51,31 @@ export async function getMetadata(): Promise<Metadata> {
   return <Metadata>jsonObj;
 }
 
+/**
+ * Converts Terraform's ~> syntax to semver-compatible range
+ * ~> X.Y means >= X.Y.0, < (X+1).0.0
+ * ~> X.Y.Z means >= X.Y.Z, < X.(Y+1).0
+ */
+function convertTerraformConstraint(constraint: string): string {
+  // Match Terraform's pessimistic constraint operator
+  const terraformPessimistic = /~>\s*(\d+)\.(\d+)(?:\.(\d+))?/g;
+
+  return constraint.replace(terraformPessimistic, (_match, major, minor, patch) => {
+    if (patch !== undefined) {
+      // ~> X.Y.Z means >= X.Y.Z, < X.(Y+1).0
+      const nextMinor = parseInt(minor) + 1;
+      return `>=${major}.${minor}.${patch} <${major}.${nextMinor}.0`;
+    } else {
+      // ~> X.Y means >= X.Y.0, < (X+1).0.0
+      const nextMajor = parseInt(major) + 1;
+      return `>=${major}.${minor}.0 <${nextMajor}.0.0`;
+    }
+  });
+}
+
 export async function getMinMaxVersions(versionConstraint: string, options: Options = {}): Promise<MinMaxVersions> {
-  const range = new semver.Range(versionConstraint.replace(/,/g, ''), options);
+  const convertedConstraint = convertTerraformConstraint(versionConstraint);
+  const range = new semver.Range(convertedConstraint.replace(/,/g, ''), options);
   const metadata = await getMetadata();
   const versions = Object.keys(metadata.versions);
 
