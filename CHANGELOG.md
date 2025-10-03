@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/clowdhaus/terraform-min-max/compare/v1.4.1...v1.4.2) (2025-10-03)
+
+
+### Bug Fixes
+
+* implement proper Terraform ~> operator support ([#94](https://github.com/clowdhaus/terraform-min-max/issues/94)) ([40cc62e](https://github.com/clowdhaus/terraform-min-max/commit/40cc62efd99f649380b47b565cfe40206b48f924)), closes [#22](https://github.com/clowdhaus/terraform-min-max/issues/22)
+
 ## [1.4.1](https://github.com/clowdhaus/terraform-min-max/compare/v1.4.0...v1.4.1) (2025-07-08)
 
 
