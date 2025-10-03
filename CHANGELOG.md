@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/clowdhaus/terraform-min-max/compare/v2.0.0...v2.1.0) (2025-10-03)
+
+
+### Features
+
+* Update node version to v24 ([#95](https://github.com/clowdhaus/terraform-min-max/issues/95)) ([b4a5f6a](https://github.com/clowdhaus/terraform-min-max/commit/b4a5f6a2781ff5777caae2ebab6dc2e079e3c69b))
+
 ## [1.4.2](https://github.com/clowdhaus/terraform-min-max/compare/v1.4.1...v1.4.2) (2025-10-03)
 
 
