@@ -24,7 +24,7 @@ GitHub action used to evaluate the Terraform minimum and maximum versions permit
 ```yml
 steps:
   - name: Checkout
-    uses: actions/checkout@v3
+    uses: actions/checkout@v5
 
   - name: Extract Terraform min/max versions
     id: minMax
@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Extract Terraform min/max versions
         id: minMax
@@ -72,7 +72,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Install Terraform v${{ matrix.version }}
         uses: hashicorp/setup-terraform@v1
