@@ -24,6 +24,8 @@
     "compile": "ncc build -m",
     "format": "prettier --write src/*ts eslint.config.mjs",
     "lint": "eslint '**/*.ts' --quiet --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "release": "semantic-release"
   },
   "lint-staged": {
@@ -84,6 +86,7 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/find-in-files": "^0.5.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.6.0",
     "@types/node-fetch": "^3.0.2",
     "@types/semver": "^7.7.1",
@@ -96,10 +99,12 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.5.4",
+    "jest": "^30.2.0",
     "lint-staged": "^16.2.3",
     "prettier": "^3.5.3",
     "prettier-plugin-package": "^2.0.0",
     "semantic-release": "^24.2.9",
+    "ts-jest": "^29.4.4",
     "typescript": "^5.9.2"
   }
 }
