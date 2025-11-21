@@ -28,18 +28,6 @@
     "test:watch": "jest --watch",
     "release": "semantic-release"
   },
-  "lint-staged": {
-    "*.ts": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.md": [
-      "prettier --single-quote --write"
-    ],
-    "*package.json": [
-      "prettier --write --plugin=prettier-plugin-package"
-    ]
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
@@ -88,7 +76,6 @@
     "@types/find-in-files": "^0.5.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
-    "@types/node-fetch": "^3.0.2",
     "@types/semver": "^7.7.1",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
@@ -106,5 +93,8 @@
     "semantic-release": "^25.0.2",
     "ts-jest": "^29.4.5",
     "typescript": "^5.9.2"
+  },
+  "resolutions": {
+    "tmp": ">=0.2.4"
   }
 }
