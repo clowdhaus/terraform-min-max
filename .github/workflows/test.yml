@@ -44,7 +44,7 @@ jobs:
         run: rm -rf $(which terraform)
 
       - name: Install Terraform ${{ steps.minMax.outputs.minVersion }}
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ steps.minMax.outputs.minVersion }}
 
@@ -59,7 +59,7 @@ jobs:
         run: rm -rf $(which terraform)
 
       - name: Install Terraform ${{ steps.minMax.outputs.maxVersion }}
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ steps.minMax.outputs.maxVersion }}
 
