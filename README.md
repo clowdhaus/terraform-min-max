@@ -6,14 +6,10 @@
 </h1>
 <p align="center">
   <img src="https://badgen.net/badge/TypeScript/strict%20%F0%9F%92%AA/blue" alt="Strict TypeScript">
-  <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly">
-  <a href="https://snyk.io/test/github/clowdhaus/terraform-min-max">
-    <img src="https://snyk.io/test/github/clowdhaus/terraform-min-max/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/clowdhaus/terraform-min-max">
-  </a>
 </p>
 <p align="center">
-  <a href="https://github.com/clowdhaus/terraform-min-max/actions?query=workflow%3Atest">
-    <img src="https://github.com/clowdhaus/terraform-min-max/workflows/test/badge.svg?branch=main" alt="test">
+  <a href="https://github.com/clowdhaus/terraform-min-max/actions?query=workflow%3Aintegration">
+    <img src="https://github.com/clowdhaus/terraform-min-max/workflows/integration/badge.svg?branch=main" alt="integration">
   </a>
 </p>
 
@@ -24,11 +20,11 @@ GitHub action used to evaluate the Terraform minimum and maximum versions permit
 ```yml
 steps:
   - name: Checkout
-    uses: actions/checkout@v5
+    uses: actions/checkout@v6
 
   - name: Extract Terraform min/max versions
     id: minMax
-    uses: clowdhaus/terraform-min-max@main
+    uses: clowdhaus/terraform-min-max@v3
     with:
       # The project root directory (.) is used as the default
       directory: .
@@ -49,11 +45,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Extract Terraform min/max versions
         id: minMax
-        uses: clowdhaus/terraform-min-max@main
+        uses: clowdhaus/terraform-min-max@v3
         with:
           directory: tests/0.13
     outputs:
@@ -72,10 +68,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install Terraform v${{ matrix.version }}
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ matrix.version }}
 
@@ -92,16 +88,31 @@ The following instructions will help you get setup for development and testing p
 
 ### Prerequisites
 
-#### [yarn](https://github.com/yarnpkg/yarn)
+- [Node.js](https://nodejs.org/) (v24+)
+- [npm](https://www.npmjs.com/) (included with Node.js)
 
-`yarn` is used to handle dependencies and executing scripts on the codebase.
+### Setup
 
-See [here](https://yarnpkg.com/en/docs/install#debian-stable) for instructions on installing yarn on your local machine.
-
-Once you have installed `yarn`, you can install the project dependencies by running the following command from within the project root directory:
+Install dependencies:
 
 ```bash
-  $ yarn
+npm install
+```
+
+### Development
+
+```bash
+# Run linting, tests, and compile
+npm run all
+
+# Run tests only
+npm run test
+
+# Run linting only
+npm run lint
+
+# Compile dist/index.js
+npm run compile
 ```
 
 ## Contributing
@@ -110,4 +121,4 @@ Please read [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md) for details on our 
 
 ## Changelog
 
-Please see the [CHANGELOG.md](CHANGELOG.md) for details on individual releases.
+Please see the [GitHub releases](https://github.com/clowdhaus/terraform-min-max/releases) for details on individual releases.
