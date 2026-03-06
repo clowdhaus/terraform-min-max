@@ -7,7 +7,7 @@ async function run(): Promise<void> {
   try {
     const directory = getInput('directory');
     const versionConstraint = await versionConstraintSearch(directory);
-    const pattern = versionConstraint.replace(/,|"/g, '');
+    const pattern = versionConstraint.replace(/"/g, '');
     const [min, max] = await getMinMaxVersions(pattern);
 
     setOutput('minVersion', min);

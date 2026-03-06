@@ -7,8 +7,18 @@ interface TerraformMetadata {
 
 type MinMaxVersions = [string, string?];
 
+const TERRAFORM_RELEASES_URL = 'https://releases.hashicorp.com/terraform/index.json';
+const FETCH_TIMEOUT_MS = 30_000;
+
 async function getMetadata(): Promise<TerraformMetadata> {
-  const response = await fetch('https://releases.hashicorp.com/terraform/index.json');
+  const response = await fetch(TERRAFORM_RELEASES_URL, {
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Terraform metadata: ${response.status} ${response.statusText}`);
+  }
+
   return response.json() as Promise<TerraformMetadata>;
 }
 

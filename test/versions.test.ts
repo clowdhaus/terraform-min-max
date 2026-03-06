@@ -21,6 +21,7 @@ const mockTerraformVersions = {
 
 beforeEach(() => {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+    ok: true,
     json: async () => mockTerraformVersions,
   }));
 });
@@ -153,5 +154,31 @@ describe('Terraform pessimistic constraint operator (~>)', () => {
       expect(min).toBe('1.4.0');
       expect(max).toBe('1.12.0');
     });
+  });
+});
+
+describe('Error handling', () => {
+  it('should throw when no versions satisfy the constraint', async () => {
+    await expect(getMinMaxVersions('>= 99.0.0')).rejects.toThrow(
+      'No Terraform versions found satisfying constraint: >= 99.0.0',
+    );
+  });
+
+  it('should throw when fetch returns non-ok response', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: false,
+      status: 503,
+      statusText: 'Service Unavailable',
+    }));
+
+    await expect(getMinMaxVersions('>= 1.0.0')).rejects.toThrow(
+      'Failed to fetch Terraform metadata: 503 Service Unavailable',
+    );
+  });
+
+  it('should throw when fetch fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network error')));
+
+    await expect(getMinMaxVersions('>= 1.0.0')).rejects.toThrow('network error');
   });
 });
