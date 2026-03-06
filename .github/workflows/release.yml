@@ -34,6 +34,7 @@ jobs:
         id: git-cliff
         uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4
         with:
+          config: cliff.toml
           args: --bump --unreleased
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

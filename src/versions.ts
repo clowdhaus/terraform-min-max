@@ -27,7 +27,7 @@ async function getMetadata(): Promise<TerraformMetadata> {
  * ~> X.Y means >= X.Y.0, < (X+1).0.0
  * ~> X.Y.Z means >= X.Y.Z, < X.(Y+1).0
  */
-function convertTerraformConstraint(constraint: string): string {
+export function convertTerraformConstraint(constraint: string): string {
   const pessimistic = /~>\s*(\d+)\.(\d+)(?:\.(\d+))?/g;
 
   return constraint.replace(pessimistic, (_match, major, minor, patch) => {

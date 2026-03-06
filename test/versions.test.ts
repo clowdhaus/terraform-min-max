@@ -1,5 +1,5 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest';
-import {getMinMaxVersions} from '../src/versions';
+import {convertTerraformConstraint, getMinMaxVersions} from '../src/versions';
 
 const mockTerraformVersions = {
   name: 'terraform',
@@ -154,6 +154,39 @@ describe('Terraform pessimistic constraint operator (~>)', () => {
       expect(min).toBe('1.4.0');
       expect(max).toBe('1.12.0');
     });
+  });
+});
+
+describe('convertTerraformConstraint', () => {
+  it('should convert ~> X.Y to >= X.Y.0 < (X+1).0.0', () => {
+    expect(convertTerraformConstraint('~> 1.3')).toBe('>=1.3.0 <2.0.0');
+  });
+
+  it('should convert ~> X.Y.Z to >= X.Y.Z < X.(Y+1).0', () => {
+    expect(convertTerraformConstraint('~> 1.3.1')).toBe('>=1.3.1 <1.4.0');
+  });
+
+  it('should convert ~> 0.Y to >= 0.Y.0 < 1.0.0', () => {
+    expect(convertTerraformConstraint('~> 0.12')).toBe('>=0.12.0 <1.0.0');
+  });
+
+  it('should convert ~> 0.Y.Z to >= 0.Y.Z < 0.(Y+1).0', () => {
+    expect(convertTerraformConstraint('~> 0.12.26')).toBe('>=0.12.26 <0.13.0');
+  });
+
+  it('should pass through non-pessimistic constraints unchanged', () => {
+    expect(convertTerraformConstraint('>= 1.0.0')).toBe('>= 1.0.0');
+    expect(convertTerraformConstraint('< 2.0.0')).toBe('< 2.0.0');
+    expect(convertTerraformConstraint('= 1.4.0')).toBe('= 1.4.0');
+    expect(convertTerraformConstraint('*')).toBe('*');
+  });
+
+  it('should handle combined constraints with ~>', () => {
+    expect(convertTerraformConstraint('~> 1.3, >= 1.4.0')).toBe('>=1.3.0 <2.0.0, >= 1.4.0');
+  });
+
+  it('should handle extra whitespace after ~>', () => {
+    expect(convertTerraformConstraint('~>  1.10')).toBe('>=1.10.0 <2.0.0');
   });
 });
 
