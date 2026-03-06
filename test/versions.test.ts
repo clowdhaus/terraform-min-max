@@ -1,9 +1,5 @@
-// Mock node-fetch before importing
-jest.mock('node-fetch', () => jest.fn());
-
-import {getMinMaxVersions} from './versions';
-
-import fetch, {Response} from 'node-fetch';
+import {describe, expect, it, vi} from 'vitest';
+import {getMinMaxVersions} from '../src/versions';
 
 const mockTerraformVersions = {
   name: 'terraform',
@@ -23,11 +19,11 @@ const mockTerraformVersions = {
   },
 };
 
-beforeEach(() => {
-  (fetch as jest.MockedFunction<typeof fetch>).mockResolvedValue({
+vi.mock('node-fetch', () => ({
+  default: vi.fn().mockResolvedValue({
     json: async () => mockTerraformVersions,
-  } as Response);
-});
+  }),
+}));
 
 describe('Exact version constraint (=)', () => {
   it('should return exact version for = constraint', async () => {
@@ -114,14 +110,14 @@ describe('Terraform pessimistic constraint operator (~>)', () => {
       const [min, max] = await getMinMaxVersions('~> 1.3');
 
       expect(min).toBe('1.3.0');
-      expect(max).toBe('1.12.0'); // Highest 1.x version available
+      expect(max).toBe('1.12.0');
     });
 
     it('should interpret ~> 1.10 as >= 1.10.0 and < 2.0.0', async () => {
       const [min, max] = await getMinMaxVersions('~> 1.10');
 
       expect(min).toBe('1.10.0');
-      expect(max).toBe('1.12.0'); // Should NOT be 1.10.5
+      expect(max).toBe('1.12.0');
     });
   });
 
