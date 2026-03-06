@@ -66,6 +66,7 @@ jobs:
         directory:
           - tests/0.12
           - tests/0.13
+          - tests/terraform-aws-alb
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6

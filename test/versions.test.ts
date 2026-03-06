@@ -1,4 +1,4 @@
-import {describe, expect, it, vi} from 'vitest';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {getMinMaxVersions} from '../src/versions';
 
 const mockTerraformVersions = {
@@ -19,11 +19,11 @@ const mockTerraformVersions = {
   },
 };
 
-vi.mock('node-fetch', () => ({
-  default: vi.fn().mockResolvedValue({
+beforeEach(() => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
     json: async () => mockTerraformVersions,
-  }),
-}));
+  }));
+});
 
 describe('Exact version constraint (=)', () => {
   it('should return exact version for = constraint', async () => {

@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import * as semver from 'semver';
 
 interface TerraformMetadata {
@@ -35,8 +34,12 @@ export async function getMinMaxVersions(versionConstraint: string): Promise<MinM
   const metadata = await getMetadata();
   const versions = Object.keys(metadata.versions);
 
-  const min = semver.minSatisfying(versions, range) as string;
-  const max = semver.maxSatisfying(versions, range) as string;
+  const min = semver.minSatisfying(versions, range);
+  const max = semver.maxSatisfying(versions, range);
+
+  if (!min || !max) {
+    throw new Error(`No Terraform versions found satisfying constraint: ${versionConstraint}`);
+  }
 
   if (min === max || versionConstraint === '*') {
     return [max];

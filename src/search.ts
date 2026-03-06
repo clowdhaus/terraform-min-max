@@ -5,6 +5,7 @@ const REQUIRED_VERSION_PATTERN = /(?<=(required_version.=.)).*/;
 const WRAPPER_DIR_PATTERN = /wrappers/;
 
 export async function versionConstraintSearch(dir: string): Promise<string> {
+  // Fuzzy pattern matches both "required_version" and "required_versions"
   const files = await findInFiles.find('required_versions*s*', dir, '.tf$');
   debug(`files: ${JSON.stringify(Object.keys(files))}`);
 
@@ -23,7 +24,10 @@ export async function versionConstraintSearch(dir: string): Promise<string> {
   }
 
   const match = REQUIRED_VERSION_PATTERN.exec(line);
-  const result = match ? match[0] : '';
-  debug(`Result: ${result}`);
-  return result;
+  if (!match) {
+    throw new Error(`Could not parse version constraint from: ${line}`);
+  }
+
+  debug(`Result: ${match[0]}`);
+  return match[0];
 }
