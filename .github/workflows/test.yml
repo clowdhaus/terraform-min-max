@@ -1,37 +1,76 @@
-name: test
+name: integration
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
+    paths:
+      - '.github/workflows/**'
+      - 'dist/**'
+      - 'src/**'
+      - 'action.yml'
+      - 'package.json'
+      - 'package-lock.json'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/**'
+      - 'dist/**'
+      - 'src/**'
+      - 'action.yml'
+      - 'package.json'
+      - 'package-lock.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  collectInputs:
-    name: Collect workflow inputs
+  verify-build:
+    name: Verify dist is up to date
     runs-on: ubuntu-latest
-    outputs:
-      directories: ${{ steps.dirs.outputs.directories }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
 
-      - name: Get root directories
-        id: dirs
-        uses: clowdhaus/terraform-composite-actions/directories@v1.14.0
+      - name: Setup Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: 24
 
-  preCommit:
-    name: Pre-commit
-    needs: collectInputs
+      - name: Install, test, and build
+        run: |
+          npm ci --ignore-scripts
+          npm run all
+
+      - name: Check for uncommitted changes
+        run: |
+          if ! git diff --quiet dist/; then
+            echo "::error::dist/index.js is out of date. Run 'npm run compile' and commit the result."
+            git diff --stat dist/
+            exit 1
+          fi
+
+  integration:
+    name: Integration test
+    needs: verify-build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directory: ${{ fromJson(needs.collectInputs.outputs.directories) }}
+        directory:
+          - tests/0.12
+          - tests/0.13
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
 
       - name: Terraform min/max versions
         id: minMax
@@ -39,31 +78,23 @@ jobs:
         with:
           directory: ${{ matrix.directory }}
 
-      # Min version
-      - name: Remove default Terraform
-        run: rm -rf $(which terraform)
-
       - name: Install Terraform ${{ steps.minMax.outputs.minVersion }}
-        uses: hashicorp/setup-terraform@v4
+        uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 # v4
         with:
           terraform_version: ${{ steps.minMax.outputs.minVersion }}
 
-      - name: Terraform validate ${{ steps.minMax.outputs.minVersion }}
+      - name: Terraform validate min (${{ steps.minMax.outputs.minVersion }})
         working-directory: ${{ matrix.directory }}
         run: |
           terraform init
           terraform validate
 
-      # Max version
-      - name: Remove min Terraform
-        run: rm -rf $(which terraform)
-
       - name: Install Terraform ${{ steps.minMax.outputs.maxVersion }}
-        uses: hashicorp/setup-terraform@v4
+        uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 # v4
         with:
           terraform_version: ${{ steps.minMax.outputs.maxVersion }}
 
-      - name: Terraform validate ${{ steps.minMax.outputs.maxVersion }}
+      - name: Terraform validate max (${{ steps.minMax.outputs.maxVersion }})
         working-directory: ${{ matrix.directory }}
         run: |
           terraform init
