@@ -1,54 +1,25 @@
-import fetch from 'node-fetch';
 import * as semver from 'semver';
 
-export interface Metadata {
-  name: 'terraform';
-  versions: Version[];
+interface TerraformMetadata {
+  name: string;
+  versions: Record<string, unknown>;
 }
 
-export enum Arch {
-  arm = 'arm',
-  x64 = 'amd64',
-  x32 = '386',
-}
+type MinMaxVersions = [string, string?];
 
-export enum Os {
-  darwin = 'darwin',
-  freebsd = 'freebsd',
-  linux = 'linux',
-  openbsd = 'openbsd',
-  solaris = 'solaris',
-  windows = 'windows',
-}
+const TERRAFORM_RELEASES_URL = 'https://releases.hashicorp.com/terraform/index.json';
+const FETCH_TIMEOUT_MS = 30_000;
 
-export interface Version {
-  name: 'terraform';
-  version: string;
-  shasums: string;
-  shasums_signature: string;
-  builds: Build[];
-}
+async function getMetadata(): Promise<TerraformMetadata> {
+  const response = await fetch(TERRAFORM_RELEASES_URL, {
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+  });
 
-export interface Build {
-  name: 'terraform';
-  version: string;
-  os: 'terraform';
-  arch: string;
-  filename: string;
-  url: string;
-}
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Terraform metadata: ${response.status} ${response.statusText}`);
+  }
 
-export interface Options {
-  includePrerelease?: boolean;
-  loose?: boolean;
-}
-
-export type MinMaxVersions = [string, string?];
-
-export async function getMetadata(): Promise<Metadata> {
-  const result = await fetch('https://releases.hashicorp.com/terraform/index.json');
-  const jsonObj = result.json() as unknown;
-  return <Metadata>jsonObj;
+  return response.json() as Promise<TerraformMetadata>;
 }
 
 /**
@@ -56,31 +27,29 @@ export async function getMetadata(): Promise<Metadata> {
  * ~> X.Y means >= X.Y.0, < (X+1).0.0
  * ~> X.Y.Z means >= X.Y.Z, < X.(Y+1).0
  */
-function convertTerraformConstraint(constraint: string): string {
-  // Match Terraform's pessimistic constraint operator
-  const terraformPessimistic = /~>\s*(\d+)\.(\d+)(?:\.(\d+))?/g;
+export function convertTerraformConstraint(constraint: string): string {
+  const pessimistic = /~>\s*(\d+)\.(\d+)(?:\.(\d+))?/g;
 
-  return constraint.replace(terraformPessimistic, (_match, major, minor, patch) => {
+  return constraint.replace(pessimistic, (_match, major, minor, patch) => {
     if (patch !== undefined) {
-      // ~> X.Y.Z means >= X.Y.Z, < X.(Y+1).0
-      const nextMinor = parseInt(minor) + 1;
-      return `>=${major}.${minor}.${patch} <${major}.${nextMinor}.0`;
-    } else {
-      // ~> X.Y means >= X.Y.0, < (X+1).0.0
-      const nextMajor = parseInt(major) + 1;
-      return `>=${major}.${minor}.0 <${nextMajor}.0.0`;
+      return `>=${major}.${minor}.${patch} <${major}.${parseInt(minor) + 1}.0`;
     }
+    return `>=${major}.${minor}.0 <${parseInt(major) + 1}.0.0`;
   });
 }
 
-export async function getMinMaxVersions(versionConstraint: string, options: Options = {}): Promise<MinMaxVersions> {
+export async function getMinMaxVersions(versionConstraint: string): Promise<MinMaxVersions> {
   const convertedConstraint = convertTerraformConstraint(versionConstraint);
-  const range = new semver.Range(convertedConstraint.replace(/,/g, ''), options);
+  const range = new semver.Range(convertedConstraint.replace(/,/g, ''));
   const metadata = await getMetadata();
   const versions = Object.keys(metadata.versions);
 
-  const min = semver.minSatisfying(versions, range) as string;
-  const max = semver.maxSatisfying(versions, range) as string;
+  const min = semver.minSatisfying(versions, range);
+  const max = semver.maxSatisfying(versions, range);
+
+  if (!min || !max) {
+    throw new Error(`No Terraform versions found satisfying constraint: ${versionConstraint}`);
+  }
 
   if (min === max || versionConstraint === '*') {
     return [max];
