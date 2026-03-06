@@ -1,25 +1,29 @@
 import {debug} from '@actions/core';
 import * as findInFiles from 'find-in-files';
 
-const regExprRequiredVersion = /(?<=(required_version.=.)).*/;
-const regExprWrappers = /wrappers/;
+const REQUIRED_VERSION_PATTERN = /(?<=(required_version.=.)).*/;
+const WRAPPER_DIR_PATTERN = /wrappers/;
 
 export async function versionConstraintSearch(dir: string): Promise<string> {
   const files = await findInFiles.find('required_versions*s*', dir, '.tf$');
-  debug(`files: ${files}`);
+  debug(`files: ${JSON.stringify(Object.keys(files))}`);
 
   const filteredResults = Object.keys(files)
     .sort((a, b) => a.length - b.length)
-    .filter(word => !regExprWrappers.test(word));
-  debug(`filteredResults: ${filteredResults}`);
-  const line = files[filteredResults[0]].line;
+    .filter(path => !WRAPPER_DIR_PATTERN.test(path));
+  debug(`filteredResults: ${JSON.stringify(filteredResults)}`);
 
-  if (line) {
-    const extractResults = regExprRequiredVersion.exec(line);
-    const res = extractResults ? extractResults[0] : '';
-    debug(`Result: ${res}`);
-    return res;
+  if (filteredResults.length === 0) {
+    throw new Error(`No Terraform version constraint found in directory: ${dir}`);
   }
 
-  return '';
+  const line = files[filteredResults[0]].line;
+  if (!line) {
+    throw new Error(`No version constraint line found in: ${filteredResults[0]}`);
+  }
+
+  const match = REQUIRED_VERSION_PATTERN.exec(line);
+  const result = match ? match[0] : '';
+  debug(`Result: ${result}`);
+  return result;
 }

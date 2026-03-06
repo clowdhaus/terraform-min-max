@@ -1,54 +1,16 @@
 import fetch from 'node-fetch';
 import * as semver from 'semver';
 
-export interface Metadata {
-  name: 'terraform';
-  versions: Version[];
+interface TerraformMetadata {
+  name: string;
+  versions: Record<string, unknown>;
 }
 
-export enum Arch {
-  arm = 'arm',
-  x64 = 'amd64',
-  x32 = '386',
-}
+type MinMaxVersions = [string, string?];
 
-export enum Os {
-  darwin = 'darwin',
-  freebsd = 'freebsd',
-  linux = 'linux',
-  openbsd = 'openbsd',
-  solaris = 'solaris',
-  windows = 'windows',
-}
-
-export interface Version {
-  name: 'terraform';
-  version: string;
-  shasums: string;
-  shasums_signature: string;
-  builds: Build[];
-}
-
-export interface Build {
-  name: 'terraform';
-  version: string;
-  os: 'terraform';
-  arch: string;
-  filename: string;
-  url: string;
-}
-
-export interface Options {
-  includePrerelease?: boolean;
-  loose?: boolean;
-}
-
-export type MinMaxVersions = [string, string?];
-
-export async function getMetadata(): Promise<Metadata> {
-  const result = await fetch('https://releases.hashicorp.com/terraform/index.json');
-  const jsonObj = result.json() as unknown;
-  return <Metadata>jsonObj;
+async function getMetadata(): Promise<TerraformMetadata> {
+  const response = await fetch('https://releases.hashicorp.com/terraform/index.json');
+  return response.json() as Promise<TerraformMetadata>;
 }
 
 /**
@@ -57,25 +19,19 @@ export async function getMetadata(): Promise<Metadata> {
  * ~> X.Y.Z means >= X.Y.Z, < X.(Y+1).0
  */
 function convertTerraformConstraint(constraint: string): string {
-  // Match Terraform's pessimistic constraint operator
-  const terraformPessimistic = /~>\s*(\d+)\.(\d+)(?:\.(\d+))?/g;
+  const pessimistic = /~>\s*(\d+)\.(\d+)(?:\.(\d+))?/g;
 
-  return constraint.replace(terraformPessimistic, (_match, major, minor, patch) => {
+  return constraint.replace(pessimistic, (_match, major, minor, patch) => {
     if (patch !== undefined) {
-      // ~> X.Y.Z means >= X.Y.Z, < X.(Y+1).0
-      const nextMinor = parseInt(minor) + 1;
-      return `>=${major}.${minor}.${patch} <${major}.${nextMinor}.0`;
-    } else {
-      // ~> X.Y means >= X.Y.0, < (X+1).0.0
-      const nextMajor = parseInt(major) + 1;
-      return `>=${major}.${minor}.0 <${nextMajor}.0.0`;
+      return `>=${major}.${minor}.${patch} <${major}.${parseInt(minor) + 1}.0`;
     }
+    return `>=${major}.${minor}.0 <${parseInt(major) + 1}.0.0`;
   });
 }
 
-export async function getMinMaxVersions(versionConstraint: string, options: Options = {}): Promise<MinMaxVersions> {
+export async function getMinMaxVersions(versionConstraint: string): Promise<MinMaxVersions> {
   const convertedConstraint = convertTerraformConstraint(versionConstraint);
-  const range = new semver.Range(convertedConstraint.replace(/,/g, ''), options);
+  const range = new semver.Range(convertedConstraint.replace(/,/g, ''));
   const metadata = await getMetadata();
   const versions = Object.keys(metadata.versions);
 
