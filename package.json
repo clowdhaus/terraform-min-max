@@ -27,16 +27,16 @@
   },
   "dependencies": {
     "@actions/core": "^3.0.1",
-    "semver": "^7.8.5"
+    "semver": "^7.8.6"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.6.6",
     "@types/semver": "^7.8.0",
-    "@vercel/ncc": "^0.44.1",
-    "eslint": "^10.8.1",
+    "@vercel/ncc": "^0.45.0",
+    "eslint": "^10.14.0",
     "typescript": "^7.0.2",
-    "typescript-eslint": "^8.67.0",
-    "vitest": "^4.1.10"
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.1.0"
   }
 }
